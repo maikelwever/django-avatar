@@ -72,7 +72,8 @@ def cache_result(default_size=settings.AVATAR_DEFAULT_SIZE):
             result = cache.get(key)
             if result is None:
                 result = func(user, size or default_size)
-                cache_set(key, result)
+                if not settings.AVATAR_DONT_CACHE_TEMPLATETAGS:
+                    cache_set(key, result)
             return result
         return cached_func
     return decorator
